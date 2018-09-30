@@ -1,0 +1,6 @@
+push,12,3,20,1,8
+peek
+pop
+push,0,0,3
+tolist
+pop
