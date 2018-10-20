@@ -2,34 +2,35 @@
 
 import sys
 
-def findNeighbors(infile, outfile):
+def findNeighbors(infile,outfile):
     f = open(infile,'r').read().split('\n')
     o = open(outfile,'w')
     wordlst= wordList()
-    dct= {}
+    wlen= 4
+    #using set comp. to collect all word of wlen length
+    mwords=[x for x in wordlst if len(x) == wlen]
+    swords= set(mwords)
+    dct={}
+    for word in mwords:
+        nb=[]
+        for i in range(0,wlen):
+            for char in set('abcdefghijklmnopqrstuvwxyz'):
+                if char != word[i]:
+                    #creating possible neighbors and seeing if they exist
+                    nword = word[:i]+char+word[i+1:]
+                    if nword in swords:
+                        nb.append(nword)
+        dct[word]=nb
 
-    for word in f:
-        cnt=0
-        if len(word) != 0:
-            dct[word]=[]
-            for entry in wordlst:
-                if len(entry)== len(word):
-                    if len(set(word).intersection(set(entry)))== (len(word)-1):
-                        posCnt=0
-                        for i in range(0, len(entry)):
-                            if word[i]==entry[i]:
-                                posCnt+=1
-                        if posCnt == (len(word)-1):
-                            dct[word].append(entry)
-                            cnt+=1
-            o.write(word+","+str(cnt)+"\n")
-    
+    for entry in f:
+        if len(entry) != 0:
+            o.write(entry+','+ str(len(dct[entry]))+'\n')
+
     o.close()
-    return dct #creation of dict as per assignment requirement   
 
 #open standard word list and split by line
 def wordList():
-    wordlst = open("dictall.txt","r").read().split('\n')
+    wordlst = open("dictall.txt","r").read().strip().split('\n')
     return wordlst
 
 findNeighbors(sys.argv[1],sys.argv[2])
