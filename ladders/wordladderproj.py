@@ -34,4 +34,8 @@ def wordList():
     wordlst = open("dictall.txt","r").read().strip().split('\n')
     return wordlst
 
+# push everything to an heapq from python3
+
+# doublets function that uses uninformed search
+
 findNeighbors(sys.argv[1],sys.argv[2])
