@@ -6,7 +6,8 @@ def findNeighbors(infile,outfile):
     f = open(infile,'r').read().split('\n')
     o = open(outfile,'w')
     wordlst= wordList()
-    wlen= 4
+    blen= (len(f[0])-1)/2
+    wlen=4
     #using set comp. to collect all word of wlen length
     mwords=[x for x in wordlst if len(x) == wlen]
     swords= set(mwords)
@@ -25,7 +26,8 @@ def findNeighbors(infile,outfile):
     for entry in f:
         if len(entry) != 0:
             o.write(entry+','+ str(len(dct[entry]))+'\n')
-
+            
+    print(blen)
     o.close()
 
 #open standard word list and split by line
