@@ -1,7 +1,6 @@
 #! /usr/bin/python3
 import sys
 import copy
-import random
 
 #Aleksandra Koroza
 #Sudoku (naive) solver
@@ -105,7 +104,6 @@ class SuSolver:
         else:
             #generate random nums,assign to cell if works, and move on
             randList= [x for x in range(1,10)]
-            random.shuffle(randList) #used to make sure that backtracking wont get stuck with same value
             for num in randList:
                 if (not self.containedIn(num,cell)):
                     self.currBoard[cell]=num
@@ -115,12 +113,13 @@ class SuSolver:
                         #backtracking, try the whole thing over with a fresh set of random values
                     else:
                         self.currBoard[cell]='_'
+                        self.backTrack+=1
 
         return False
     #output to outfile the name of the board followed by solution
     def getAnsBoard(self):
         o = open(self.outputfile,'w')
-        o.write("name,"+(self.name).replace("unsolved","solved")+"\n")
+        o.write((self.name).replace("unsolved","solved")+"\n")
         self.solve()
         board=""
         size=0
