@@ -1,1 +1,9 @@
-head,tail
+elbow,below
+state,taste
+cider,cried
+dusty,study
+night,thing
+bored,robed
+angel,glean
+
+
