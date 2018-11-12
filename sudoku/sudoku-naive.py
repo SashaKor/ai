@@ -36,10 +36,8 @@ class SuSolver:
         brd= strBoard.split(',').copy() #a list of all cells
         for i in range(0,81):
             if brd[i].isdigit():
-                print(True)
-                initBoard[i]=int(brd[i])
+                initBoard[i]=int(brd[i]) #to make sure I'm dealing with ints
             else:
-                print(False)
                 initBoard[i]= brd[i]
         return initBoard
 
@@ -105,38 +103,41 @@ class SuSolver:
             if (self.helpSolve(cell+1)):
                 return True
         else:
+            #generate random nums,assign to cell if works, and move on
             randList= [x for x in range(1,10)]
             random.shuffle(randList) #used to make sure that backtracking wont get stuck with same value
-            foundBool= False
-
             for num in randList:
-                for neighbor in self.neighbors[cell]: #loops through set of all neighbors of current cell
-                    if self.currBoard[neighbor]== num:#gets value of neighbor
-                        foundBool=True
-                        break #found that value
-                if foundBool:
-                    continue # this means that num cannot be used
-                self.currBoard[cell]=num #if it reached here, it can be used
-
-                #move to the next cell
-                if (self.helpSolve(cell+1)):
-                    return True
-                #backtracking
-                else:
-                    self.currBoard[cell]='_'
+                if (not self.containedIn(num,cell)):
+                    self.currBoard[cell]=num
+                    #move to the next cell
+                    if (self.helpSolve(cell+1)):
+                        return True
+                        #backtracking, try the whole thing over with a fresh set of random values
+                    else:
+                        self.currBoard[cell]='_'
 
         return False
     #output to outfile the name of the board followed by solution
-    def getAnsBoard(self,outfile):
-        o = open(outfile,'w')
+    def getAnsBoard(self):
+        o = open(self.outputfile,'w')
+        o.write("name,"+self.name+"\n")
+        self.solve()
+        board=""
+        for cell in self.currBoard:
+            if len(board)%9==0:
+                board+="\n"
+            board+= (str(self.currBoard[cell])+",")
+        o.write(board)
         o.close()
 
+    #checks if a certain value is contained in row, column, box of current cell
+    def containedIn(self,val,cell):
+        for neighbor in self.neighbors[cell]: #fetches all relevant cells
+            if self.currBoard[neighbor]== val:
+                return True
+        return False
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #testing area
-solver= SuSolver("Sudoku-boards.txt","out.txt","Easy-NYTimes,unsolved")
-#print(solver.neighbors)
-#print(solver.initBoard)
-#print(solver.currBoard)
-solver.solve()
-print(solver.currBoard)
+solver= SuSolver(sys.argv[1],sys.argv[2],sys.argv[3])
+solver.getAnsBoard()
