@@ -5,7 +5,7 @@ import random
 
 #Aleksandra Koroza
 #Sudoku (naive) solver
-
+#11/12/18
 class SuSolver:
     # default init reads provided file, assigns a default outfile name, and works with first unsolved board
     def __init__(self,infile="Sudoku-boards.txt",outfile="out.txt",name="Easy-NYTimes,unsolved"):
@@ -120,13 +120,17 @@ class SuSolver:
     #output to outfile the name of the board followed by solution
     def getAnsBoard(self):
         o = open(self.outputfile,'w')
-        o.write("name,"+self.name+"\n")
+        o.write("name,"+(self.name).replace("unsolved","solved")+"\n")
         self.solve()
         board=""
+        size=0
         for cell in self.currBoard:
-            if len(board)%9==0:
+            board+= str(self.currBoard[cell])
+            size+=1
+            if size%9==0: #since len(board) includes \n
                 board+="\n"
-            board+= (str(self.currBoard[cell])+",")
+            else:
+                board+="," #no commas at the end
         o.write(board)
         o.close()
 
