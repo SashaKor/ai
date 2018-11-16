@@ -108,9 +108,10 @@ class SuSolver:
                 if (not self.containedIn(num,cell)):
                     self.currBoard[cell]=num
                     #move to the next cell
+                    #insert func to force
                     if (self.helpSolve(cell+1)):
                         return True
-                        #backtracking, try the whole thing over with a fresh set of random values
+                        #backtracking, try the whole thing over with a fresh set
                     else:
                         self.currBoard[cell]='_'
                         self.backTrack+=1
