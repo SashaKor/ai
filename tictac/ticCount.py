@@ -21,10 +21,10 @@ posBoards=[]
 
 def buildTree():
     start="_________"
-    return helpBuildTree(start,"x",[])
+    return helpBuildTree(start,"x")
 
 #passing in board and who currently moving
-def helpBuildTree(board,turn,lst):
+def helpBuildTree(board,turn):
     global posGames,posBoards
     if won(board,'x') or won(board,"o") or draw(board):
         posGames+=1
@@ -34,7 +34,7 @@ def helpBuildTree(board,turn,lst):
                  board= board[:i]+turn+board[i+1:]
                  if not(board in posBoards):
                      posBoards.append(board)
-                 helpBuildTree(board,'x' if turn == 'o' else 'o',lst)
+                 helpBuildTree(board,'x' if turn == 'o' else 'o')
                  board= board[:i]+"_"+board[i+1:]
 
 #returns True if a certain player won a game
