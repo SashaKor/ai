@@ -166,11 +166,18 @@ def main():
             result='Error: board must be 9 characters'
         else:
             poss=[i for i in range(9) if board[i]=='_']
+            '''
+            if len(poss) > 0:
+                i = random.choice(poss)
+                result='move=%d\n(pretty random, though)\n' % i
+            else:
+                result='move=-1\n(Come on, the game is done!)\n'
+                '''
             if len(poss) > 0:
                 CreateAllBoards(board)
                 node = AllBoards[board]
                 best_move= node.best_move
-                result= "Best move:{0}\n {1} in {2} moves!\n".format(str_move(best_move),str_state(node.best_final_state),node.num_moves_to_final_state)
+                result='move=%d\n %s in %d moves!\n' % (best_move,str_state(node.best_final_state),node.num_moves_to_final_state)
             else:
                 result='move=-1\n(Come on, the game is done!)\n'
     if 'result_prefix' in dct:
